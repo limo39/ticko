@@ -1,30 +1,35 @@
-export type Match = {
-  id: number;
-  homeTeam: string;
-  awayTeam: string;
-  venue: string;
-  dateTime: string; // ISO string
-  status: 'scheduled' | 'ongoing' | 'completed' | 'cancelled';
-};
-
-export type TicketType = 'VVIP' | 'VIP' | 'Regular';
-
-export type TicketStatus = 'available' | 'reserved' | 'sold' | 'used';
-
-export type Ticket = {
-  id: number;
-  matchId: number;
-  type: TicketType;
-  seatNumber: string;
-  price: number;
-  status: TicketStatus;
-  purchaseAt?: string;
-  qrCode?: string;
-};
-
-export type User = {
+export interface User {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'staff' | 'user';
-};
+  role: string;
+  created_at: string;
+}
+
+export interface Match {
+  id: number;
+  home_team: string;
+  away_team: string;
+  venue: string;
+  date_time: string;
+  status: string;
+}
+
+export interface Ticket {
+  id: number;
+  match_id: number;
+  match?: Match;
+  type: 'VVIP' | 'VIP' | 'Regular';
+  seat_number: string;
+  price: number;
+  status: 'available' | 'reserved' | 'sold' | 'used';
+  user_id?: number;
+  user?: User;
+  purchase_at?: string;
+  qr_code?: string;
+}
+
+export interface TicketAllocation {
+  count: number;
+  price: number;
+}

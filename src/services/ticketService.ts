@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Ticket } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = 'http://localhost:8080/api';
 
 export const getAvailableTickets = async (matchId: number, type: string): Promise<Ticket[]> => {
   const response = await axios.get(`${API_URL}/matches/${matchId}/tickets`, {

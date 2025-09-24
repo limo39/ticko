@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Ticket, TicketType } from '../types';
-import { getAvailableTickets } from '../services/ticketService';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Ticket } from '../types';
+import { ticketService } from '../services/api';
 import SeatMap from '../components/SeatMap';
 import TicketTypeSelector from '../components/TicketTypeSelector';
 
 export default function TicketSelectionPage() {
   const { matchId } = useParams();
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [selectedType, setSelectedType] = useState<TicketType>('Regular');
+  const [selectedType, setSelectedType] = useState<'VVIP' | 'VIP' | 'Regular'>('Regular');
+  const navigate = useNavigate();
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchTickets = async () => {
       if (!matchId) return;
       try {
-        const data = await getAvailableTickets(parseInt(matchId), selectedType);
+        const data = await ticketService.getAvailableTickets(parseInt(matchId), selectedType);
         setTickets(data);
       } catch (error) {
         console.error('Error fetching tickets:', error);
@@ -58,7 +59,7 @@ export default function TicketSelectionPage() {
                   {selectedSeats.map(seat => (
                     <li key={seat} className="flex justify-between py-2 border-b">
                       <span>{seat}</span>
-                      <span>${tickets.find(t => t.seatNumber === seat)?.price.toFixed(2)}</span>
+                      <span>${tickets.find(t => t.seat_number === seat)?.price.toFixed(2)}</span>
                     </li>
                   ))}
                 </ul>
@@ -66,14 +67,14 @@ export default function TicketSelectionPage() {
                   <span>Total:</span>
                   <span>
                     ${selectedSeats.reduce((sum, seat) => {
-                      const ticket = tickets.find(t => t.seatNumber === seat);
+                      const ticket = tickets.find(t => t.seat_number === seat);
                       return sum + (ticket?.price || 0);
                     }, 0).toFixed(2)}
                   </span>
                 </div>
                 <button 
                   className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
-                  onClick={() => {/* Proceed to checkout */}}
+                  onClick={() => navigate('/checkout', { state: { selectedSeats, tickets, matchId } })}
                 >
                   Proceed to Checkout
                 </button>

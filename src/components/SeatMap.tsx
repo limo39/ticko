@@ -27,16 +27,16 @@ export default function SeatMap({ tickets, selectedSeats, onSeatSelect }: SeatMa
           <div className="grid grid-cols-10 gap-2">
             {sectionTickets.map(ticket => (
               <button
-                key={ticket.seatNumber}
+                key={ticket.seat_number}
                 className={`w-8 h-8 rounded flex items-center justify-center text-xs
                   ${ticket.status !== 'available' ? 'bg-gray-300 cursor-not-allowed' : 
-                    selectedSeats.includes(ticket.seatNumber) ? 'bg-blue-600 text-white' : 
+                    selectedSeats.includes(ticket.seat_number) ? 'bg-blue-600 text-white' : 
                     'bg-white hover:bg-blue-100 border border-gray-200'}
                 `}
                 disabled={ticket.status !== 'available'}
-                onClick={() => onSeatSelect(ticket.seatNumber)}
+                onClick={() => onSeatSelect(ticket.seat_number)}
               >
-                {ticket.seatNumber.split('-')[1]}
+                {ticket.seat_number.split('-')[1]}
               </button>
             ))}
           </div>

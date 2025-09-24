@@ -35,3 +35,8 @@ type Ticket struct {
 	PurchaseAt time.Time `json:"purchase_at,omitempty"`
 	QRCode     string    `json:"qr_code,omitempty"`
 }
+
+type TicketAllocation struct {
+	Count int     `json:"count"`
+	Price float64 `json:"price"`
+}

@@ -23,4 +23,4 @@ func (s *TicketService) GetAvailableTickets(matchID uint, ticketType string) ([]
 
 func (s *TicketService) PurchaseTicket(userID, ticketID uint) (*models.Ticket, error) {
 	return s.ticketRepo.PurchaseTicket(userID, ticketID)
-}"
+}

@@ -2,8 +2,11 @@ package repositories
 
 import (
 	"errors"
+	"strconv"
+	"time"
 	"ticket-system/internal/models"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 

@@ -8,7 +8,7 @@ import (
 	"ticket-system/internal/services"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -16,8 +16,8 @@ func main() {
 	// Load configuration
 	cfg := config.Load()
 
-	// Database connection
-	db, err := gorm.Open(postgres.Open(cfg.DatabaseURL), &gorm.Config{})
+	// Database connection (using SQLite for testing)
+	db, err := gorm.Open(sqlite.Open("ticket_system.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
